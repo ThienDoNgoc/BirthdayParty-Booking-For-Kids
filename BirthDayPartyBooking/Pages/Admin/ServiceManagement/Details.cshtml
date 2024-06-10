@@ -1,0 +1,55 @@
+﻿@page
+@model BirthDayPartyBooking.Pages.Admin.ServiceManagement.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="mx-auto max-w-2xl lg:py-8">
+        <h2 class="text-5xl font-bold text-gray-900 dark:text-white">Details Service</h2>
+        <form class="mt-2" method="post">
+            <input type="hidden" asp-for="Service.Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                <div class="sm:col-span-2">
+                    <label asp-for="Service.Name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                    <input asp-for="Service.Name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type name" required="" disabled />
+                
+                </div>
+                <div class="w-full">
+                    <label asp-for="Service.Price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                    <input asp-for="Service.Price"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="" disabled />
+                 
+                </div>
+                <div>
+                    <label asp-for="Service.ServiceType" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                    <input asp-for="Service.ServiceType.Name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" disabled />
+                     
+   
+                </div>
+                <div class="sm:col-span-2">
+                    <label asp-for="Service.Description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                    <textarea asp-for="Service.Description" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Your description here" disabled ></textarea>
+                </div>
+                <div class="w-full">
+                    <input type="hidden" asp-for="Service.HostId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="" disabled />
+                    <input type="hidden" asp-for="Service.DeleteFlag" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required="" disabled />
+                </div>
+            </div>
+        </form>
+        <button onclick="window.location.href='./Edit?id=@Model.Service.Id'" asp-route-id="@Model.Service.Id" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+            Edit
+        </button>
+        <button onclick="window.location.href='./Index';" class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+            Back to list
+        </button>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

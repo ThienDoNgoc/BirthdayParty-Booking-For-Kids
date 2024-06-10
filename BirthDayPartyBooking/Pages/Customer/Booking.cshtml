@@ -1,0 +1,168 @@
+﻿@page
+@model BirthDayPartyBooking.Pages.Customer.BookingModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<section class="dark:bg-gray-900">
+    <div class="max-w-5xl mx-auto">
+        <div class="flex w-full justify-between items-center">
+        <h2 class="mb-8 text-5xl font-bold text-gray-900 dark:text-white">Booking</h2>
+            <div class="flex justify-between items-center gap-4">
+        <form method="post" asp-page-handler="Back">
+            <div class="form-group">
+                <input type="submit" value="Back to list" class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900" />
+            </div>
+        </form>
+            <form method="post" asp-page-handler="ClearDetail">
+                <div class="form-group">
+                        <input type="submit" value="Clear" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" />
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="mb-4">
+            <!-- Start coding here -->
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-4 py-3">Service Name</th>
+                                <th scope="col" class="px-4 py-3">Description</th>
+                                <th scope="col" class="px-4 py-3">Quantity</th>
+                                <th scope="col" class="px-4 py-3">Price</th>
+                                <th scope="col" class="px-4 py-3">Service Type</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <tr>
+                                    <td class="px-4 py-3">
+                                        @Html.DisplayFor(modelItem => item.Service.Name)
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        @Html.DisplayFor(modelItem => item.Service.Description)
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        @Html.DisplayFor(modelItem => item.Number)
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        @Html.DisplayFor(modelItem => item.Price)
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        @Html.DisplayFor(modelItem => item.Service.ServiceType.Name)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="relative overflow-hidden bg-white rounded-b-lg shadow-md dark:bg-gray-800">
+                    <nav class="flex flex-row items-center justify-end p-4 pr-16"
+                         aria-label="Table navigation">
+                        <p class="text-sm">
+                            <span class="font-normal text-gray-500 dark:text-gray-400">Total price:</span>
+                            <span id="totalPrice" class="font-semibold text-gray-900 dark:text-white">$@Model.Order.TotalPrice</span>
+                        </p>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <form method="post" asp-page-handler="FormDetail">
+            <div class="w-full flex justify-between my-8">
+                <div class="w-50% flex gap-4">
+                <select asp-for="OrderDetail.ServiceId" class="max-w-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Select service" required="" asp-items="ViewBag.ServiceId"></select>
+                <input id="numberInput" asp-for="Number" class="max-w-16 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value="1" min="1" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add service" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" />
+                </div>
+            </div>
+        </form>
+        </>
+        <form method="post" asp-page-handler="FormOrder">
+            <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
+                <div class="w-full">
+                    <label asp-for="Order.PlaceId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Place</label>
+                    <select asp-for="Order.PlaceId" asp-items="ViewBag.PlaceId" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Select place" required=""></select>
+                </div>
+                <div class="w-full">
+                    <label asp-for="Order.Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                    <input asp-for="Order.Date" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")"
+                           type="date" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                    <span asp-validation-for="Order.Date" class="text-danger"></span>
+                </div>
+                @if (TempData["WarningMessage"] != null)
+                {
+                    <div class="alert alert-warning">
+                        @TempData["WarningMessage"]
+                    </div>
+                }
+                <div class="sm:col-span-2">
+                    <label asp-for="Order.Note" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
+                    <textarea asp-for="Order.Note" rows="8" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write any note here..."></textarea>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <input type="submit" value="Create order" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            </div>
+        </form>
+
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+            updateNumberInput();
+            updateTotalPrice();
+            function updateNumberInput() {
+                var selectedValue = $('#OrderDetail_ServiceId').val();
+                var selectedText = $('#OrderDetail_ServiceId option[value="' + selectedValue + '"]').text();
+                var serviceType = selectedText.split(' - ')[0];
+                console.log(selectedValue);
+                console.log(selectedText);
+                console.log(serviceType);
+                if (serviceType !== 'Dish') {
+                    $('#numberInput').prop('readonly', true);
+                    $('#numberInput').val(1);
+                } else {
+                    $('#numberInput').prop('readonly', false);
+                    $('#numberInput').val(1);
+                }
+            }
+
+            function updateTotalPrice() {
+                var selectedValue = $('#Order_PlaceId').val();
+                var placePriceText = $('#Order_PlaceId option[value="' + selectedValue + '"]').text().split(' - ')[1];
+                var placePriceNumeric = parseFloat(placePriceText.replace(/[^\d.]/g, ''));
+                console.log("Place Price:" + placePriceNumeric);
+                var totalPrice = parseInt('@Model.Order.TotalPrice'.replace('$', '')) + parseInt(placePriceNumeric);
+                var totalPriceSpan = document.getElementById('totalPrice');
+                totalPriceSpan.textContent = '$' + totalPrice.toString();
+            }
+
+            $('#Order_PlaceId').change(function () {
+                updateTotalPrice();
+            });
+
+            $('#OrderDetail_ServiceId').change(function () {
+                updateNumberInput();
+            });
+        });
+    </script>
+    @if (TempData["WarningMessage"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["WarningMessage"]
+        </div>
+    }
+}

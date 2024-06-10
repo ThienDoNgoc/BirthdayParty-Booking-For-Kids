@@ -1,0 +1,168 @@
+﻿@page
+@using BusinessObject.Enum;
+@model BirthDayPartyBooking.Pages.Administrator.ReportStatisticModel
+@{
+    ViewData["Title"] = "TotalOrder";
+}
+
+<form method="post">
+    <input type="date" asp-for="StartDate" value="@Model.StartDate.ToString("MM-dd-yyyy")" />
+    <input type="date" asp-for="EndDate" value="@Model.EndDate.ToString("MM-dd-yyyy")" />
+    <button type="submit" class="search-button">Search</button>
+</form>
+
+<section class="bg-white dark:bg-gray-900 p-3 sm:p-5">
+    <h2 class="mb-4 text-2xl font-bold text-gray-900 dark:text-white">Account Management</h2>
+    <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+        <!-- Start coding here -->
+        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+                <div class="w-full md:w-1/2">
+                    <form class="flex items-center" method="post" asp-page-handler="Filter">
+                        <label for="status-filter" class="sr-only">Filter by Status</label>
+                        <div class="relative w-full">
+                            <select id="status-filter" name="StatusFilter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <option value="">All</option>
+                                @foreach (var status in Model.StatusNames)
+                                {
+                                    <option value="@Array.IndexOf(Model.StatusNames, status)">@status</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="search-button">Filter</button>
+                    </form>
+                </div>
+
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-4 py-3">   @Html.DisplayNameFor(model => model.orders[0].Host.Name)</th>
+                            <th scope="col" class="px-4 py-3">  @Html.DisplayNameFor(model => model.orders[0].TotalPrice)</th>
+                            <th scope="col" class="px-4 py-3">   @Html.DisplayNameFor(model => model.orders[0].Date)</th>
+                            <th scope="col" class="px-4 py-3">  @Html.DisplayNameFor(model => model.orders[0].OrderDate)</th>
+                            <th scope="col" class="px-4 py-3"> Status </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.orders)
+                        {
+                            <tr class="border-b dark:border-gray-700">
+                                <td class="px-4 py-3"> @Html.DisplayFor(modelItem => item.Host.Name)</td>
+                                <td class="px-4 py-3"> @Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                                <td class="px-4 py-3"> @Html.DisplayFor(modelItem => item.Date)</td>
+                                <td class="px-4 py-3"> @Html.DisplayFor(modelItem => item.OrderDate)</td>
+                                <td class="px-4 py-3">
+                                    @{
+                                        string[] statusNames = OrderStatus.StatusNames;
+                                        string statusString = statusNames[(int)item.Status];
+                                    }
+                                    @Html.DisplayFor(modelItem => statusString)
+                                </td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <nav class="flex flex-col md:flex-row justify-end items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
+                <ul class="inline-flex items-stretch -space-x-px">
+                    <li>
+                        <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <span class="sr-only">Previous</span>
+                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                    </li>
+                    <li>
+                        <a href="#" aria-current="page" class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-gray-500 bg-white rounded-r-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <span class="sr-only">Next</span>
+                            <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>
+<style>
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 1rem;
+        user-select: none;
+        border: 1px solid transparent;
+        text-decoration: none;
+    }
+
+    .btn-danger {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+
+        .btn-danger:hover {
+            color: #fff;
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+    .btn-success {
+        color: #fff;
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            color: #fff;
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .search-button {
+        background-color: #4CAF50; /* Green */
+        border: 2px solid #4CAF50; /* Green border */
+        color: white;
+        padding: 5px 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 12px;
+        cursor: pointer;
+        transition-duration: 0.4s;
+        border-radius: 12px; /* Border radius */
+    }
+
+        .search-button:hover {
+            background-color: white;
+            color: black;
+            border: 2px solid #4CAF50;
+        }
+</style>
